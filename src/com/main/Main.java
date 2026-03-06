@@ -1,16 +1,16 @@
 package com.main;
 
 import java.util.*;
-import com.user.Controller;
-import com.inventory.Inventory;
 
+import com.user.Search;
+import com.inventory.Inventory;
 /*
  * 
  * @author: Abhilaksh
- * @version: UC1
+ * @version: UC2
+ * 
  * 
  * */
-
 
 public class Main {
 	
@@ -18,21 +18,11 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		map.put("Single",new Inventory(10000,50));
-		map.put("Double",new Inventory(30000,30));
-		map.put("Suite",new Inventory(50000,20));
+		map.put("Single",new Inventory(2000,5));
+		map.put("Double",new Inventory(3000,3));
+		map.put("Suite",new Inventory(4000,0));
 		
-		for(String s : map.keySet()) {
-			System.out.println(s + " " + map.get(s).roomCount + " " + map.get(s).roomPrice);
-		}
-		
-		Controller.increaseRoomCount(2, "Single");
-		Controller.updatePrice(35000, "Double");
-		
-		for(String s : map.keySet()) {
-			System.out.println(s + " " + map.get(s).roomCount + " " + map.get(s).roomPrice);
-		}
-		
+		Search.searchRoom("Suite");
 
 	}
 
