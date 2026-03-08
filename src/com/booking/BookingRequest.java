@@ -3,6 +3,7 @@ package com.booking;
 import java.util.*;
 import java.util.concurrent.*;
 
+import com.user.BookingHistory;
 import com.user.Controller;
 import com.main.Main;
 
@@ -13,12 +14,12 @@ public class BookingRequest {
     public static void booking(String roomType, String user) {
         req.add(user);
         while (!req.isEmpty()) {
-            book(roomType);
+            book(roomType,user);
             req.remove();
         }
     }
 
-    public static void book(String roomType) {
+    public static void book(String roomType,String user) {
         ScheduledFuture<?> timeout = scheduler.schedule(() -> {
             System.out.println("Booking dismissed after 10 seconds");
         }, 10, TimeUnit.SECONDS);
@@ -27,9 +28,11 @@ public class BookingRequest {
             System.out.println("Room not available");
             timeout.cancel(true);
         } else {
-        	Main.assignedRooms.get(roomType).add(roomType + "" + Main.map.get(roomType).roomCount);
-        	Main.bookedRooms.add(roomType + "" + Main.map.get(roomType).roomCount);
-        	System.out.println("Room with ID " + roomType + "" + Main.map.get(roomType).roomCount +" booked successfully");
+        	String roomID = roomType + "" + Main.map.get(roomType).roomCount;
+        	BookingHistory.add(user,roomID);
+        	Main.assignedRooms.get(roomType).add(roomID);
+        	Main.bookedRooms.add(roomID);
+        	System.out.println("Room with ID " + roomID +" booked successfully");
             Controller.decreaseRoomCount(1, roomType);
             timeout.cancel(true);
         }

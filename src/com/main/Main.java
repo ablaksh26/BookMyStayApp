@@ -3,12 +3,15 @@ package com.main;
 import java.util.*;
 
 import com.booking.BookingRequest;
+import com.user.BookingHistory;
+import com.user.Cancel;
 import com.user.Search;
 import com.inventory.Inventory;
+
 /*
  * 
  * @author: Abhilaksh
- * @version: UC5
+ * @version: UC6
  * 
  * 
  * */
@@ -21,9 +24,9 @@ public class Main {
 	public static HashMap<String,ArrayList<String>> Services = new HashMap<>();
 
 	static {
-		map.put("Single",new Inventory(20000,5));
-		map.put("Double",new Inventory(30000,3));
-		map.put("Suite",new Inventory(50000,2));
+		map.put("Single",new Inventory(2000,5));
+		map.put("Double",new Inventory(3000,3));
+		map.put("Suite",new Inventory(4000,2));
 		
 		assignedRooms.put("Single", new HashSet<>());
 		assignedRooms.put("Double", new HashSet<>());
@@ -43,6 +46,7 @@ public class Main {
 		while(x!=0) {
 			System.out.print("Enter 1 to book room: ");
 			System.out.print("\nEnter 2 to search for different room: ");
+			System.out.print("\nEnter 3 to cancel room booking: ");
 			System.out.print("\nEnter 0 to exit: ");
 			x = sc.nextInt();
 			sc.nextLine();
@@ -71,11 +75,23 @@ public class Main {
 				roomType = sc.nextLine();
 				found = Search.searchRoom(roomType);
 			}
+			else if(x==3) {
+				System.out.print("Enter room ID: ");
+				String ID = sc.nextLine();
+				boolean roomCancelled = Cancel.cancelRoom(ID,roomType);
+				if(roomCancelled)System.out.println("Room booking cancelled.\n");
+				else System.out.println("Room Id wrong or not booked\n");
+			}
 		}
 		
 		System.out.println("Booked rooms list: "+ bookedRooms);
 		System.out.println(assignedRooms);
 		System.out.println(Services);
+		System.out.println("Booking History Record: ");
+		
+		for(String s : BookingHistory.history) {
+			System.out.println(s);
+		}
 		
 		sc.close();
 	}
