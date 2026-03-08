@@ -2,12 +2,14 @@ package com.main;
 
 import java.util.*;
 
+import com.booking.BookingRequest;
+import com.user.Controller;
 import com.user.Search;
 import com.inventory.Inventory;
 /*
  * 
  * @author: Abhilaksh
- * @version: UC2
+ * @version: UC3
  * 
  * 
  * */
@@ -18,11 +20,41 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		map.put("Single",new Inventory(2000,5));
-		map.put("Double",new Inventory(3000,3));
-		map.put("Suite",new Inventory(4000,0));
+		map.put("Single",new Inventory(20000,5));
+		map.put("Double",new Inventory(30000,3));
+		map.put("Suite",new Inventory(50000,2));
 		
-		Search.searchRoom("Suite");
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.print("Enter your name: ");
+		String user = sc.nextLine();
+		System.out.print("Enter room type you want Single/Double/Suite: ");
+		String roomType = sc.nextLine();
+		boolean found = Search.searchRoom(roomType);
+		
+		int x = -1;
+		while(x!=0) {
+			System.out.print("Enter 1 to book room: ");
+			System.out.print("\nEnter 2 to search for different room: ");
+			System.out.print("\nEnter 0 to exit: ");
+			x = sc.nextInt();
+			sc.nextLine();
+			if(x==0) {
+				System.out.println("Exit!!!!");
+				break;
+			}
+			else if(x==1) {
+				if(found) {
+					BookingRequest.booking(roomType,user);
+				}
+				break;
+			}
+			else if(x==2) {
+				System.out.print("Enter room type you want Single | Double | Suite: \n");
+				roomType = sc.nextLine();
+				found = Search.searchRoom(roomType);
+			}
+		}
 
 	}
 
